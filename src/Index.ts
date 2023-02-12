@@ -22,4 +22,4 @@ readdirSync(handlersDirectory).forEach((handler) => {
     require(`${handlersDirectory}/${handler}`)(client);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD_TOKEN);
