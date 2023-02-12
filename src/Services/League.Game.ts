@@ -1,9 +1,6 @@
 import { Client } from 'discord.js';
 import get from 'axios';
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
 import { getLatestVersion, getQueueName } from './League.Helpers';
 
 import { RIOT_API_KEY, RIOT_API_URL, DDRAGON_URL } from './League.Constants';
