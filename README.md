@@ -4,10 +4,6 @@
     <p>Leaguecord is a Discord bot that brings the world of League of Legends to your Discord server. With Leaguecord, you can access information about your favorite summoners, champions, and games. The bot is created using discord.js and axios.</p>
 </div>
 
-## Features
-
--   Lookup summoner information (/summoner)
-
 ## Requirements
 
 -   [Installation Instructions](https://github.com/glooobal/leaguecord/blob/main/INSTALLATON.md)
