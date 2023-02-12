@@ -13,6 +13,7 @@ import {
     getSummonerChampions,
     getLiveGame,
     getSummonerRanked,
+    getMatchesNumber,
 } from '../Services/League.Game';
 
 const command: Command = {
@@ -58,6 +59,17 @@ const command: Command = {
 
         const summoner = await getSummonerAccount(name, region);
 
+        const today = new Date();
+
+        const todayStartTime = today.setHours(0, 0, 0, 0) / 1000;
+        const todayEndTime = todayStartTime + 24 * 60 * 60 - 1;
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const yesterdayStartTime = yesterday.setHours(0, 0, 0, 0) / 1000;
+        const yesterdayEndTime = yesterdayStartTime + 24 * 60 * 60 - 1;
+
         if (summoner.name != undefined) {
             const summonerStats = await getSummonerRanked(
                 summoner.sId,
@@ -83,7 +95,21 @@ const command: Command = {
             const summonerEmbed = new EmbedBuilder()
                 .setColor('DarkVividPink')
                 .setTitle(`🎉 Summoner: ${summoner.name} (${summoner.level})`)
-                .setDescription('Hey, look! Here it is:')
+                .setDescription(
+                    `Games played today: ${await getMatchesNumber(
+                        summoner.pId,
+                        region,
+                        todayStartTime,
+                        todayEndTime,
+                        50
+                    )}, yesterday: ${await getMatchesNumber(
+                        summoner.pId,
+                        region,
+                        yesterdayStartTime,
+                        yesterdayEndTime,
+                        50
+                    )}`
+                )
                 .addFields(
                     {
                         name: 'Top Champions:',

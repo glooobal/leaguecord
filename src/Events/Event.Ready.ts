@@ -7,7 +7,7 @@ const event: Event = {
     once: true,
     execute: (client: Client) => {
         client.user.setActivity({
-            name: '/help • /invite',
+            name: '/help • Hello!',
             type: ActivityType.Watching,
         });
         console.log(`Ready! Logged in as ${client.user?.tag}`);

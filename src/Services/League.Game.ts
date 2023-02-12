@@ -35,18 +35,11 @@ export async function getSummonerAccount(
         const summonerName = data.name;
         const summonerId = data.id;
         const accountId = data.accountId;
+        const puuId = data.puuid;
         const profileIconId = data.profileIconId;
         const summonerLevel = data.summonerLevel;
 
         const profileIconUrl = `${ddragonUrl}cdn/${await getLatestVersion()}/img/profileicon/${profileIconId}.png`;
-
-        var response = await axios.get(
-            `https://${region}.${riotUrl}summoner/v4/summoners/${summonerId}?api_key=${apiKey}`
-        );
-
-        var data = response.data;
-
-        const puuId = data.puuId;
 
         return {
             name: summonerName,
@@ -69,6 +62,26 @@ export async function getSummonerAccount(
             iconUrl: undefined,
             level: undefined,
         };
+    }
+}
+
+export async function getQueueName(queueId: number) {
+    try {
+        const response = await axios.get(
+            'https://static.developer.riotgames.com/docs/lol/queues.json'
+        );
+
+        const queues = response.data;
+
+        const queue = queues.find((queue) => queue.queueId === queueId);
+
+        if (queue) return queue.description.slice(0, -1);
+        else return 'Game';
+    } catch (err) {
+        console.error(
+            `An error occured while fetching queue description: ${err.message}`
+        );
+        return 'Game';
     }
 }
 
@@ -160,23 +173,34 @@ export async function getLiveGame(
     }
 }
 
-export async function getQueueName(queueId: number) {
+export async function getMatchesNumber(
+    puuId: string,
+    region: string,
+    startTime: number,
+    endTime: number,
+    count: number
+): Promise<number | any> {
+    let riotRegion: any;
+
+    if (region === 'EUW1' || 'EUN1' || 'RU' || 'TR1') {
+        riotRegion = 'europe';
+    } else if (region === 'JP1' || 'KR' || 'OC1') {
+        riotRegion = 'asia';
+    } else if (region === 'NA1' || 'LA1' || 'LA2' || 'BR1') {
+        riotRegion = 'americas';
+    } else {
+        riotRegion = 'sea';
+    }
+
     try {
-        const response = await axios.get(
-            'https://static.developer.riotgames.com/docs/lol/queues.json'
+        var response = await axios.get(
+            `https://${riotRegion}.${riotUrl}match/v5/matches/by-puuid/${puuId}/ids?startTime=${startTime}&endTime=${endTime}&count=${count}&api_key=${apiKey}`
         );
 
-        const queues = response.data;
-
-        const queue = queues.find((queue) => queue.queueId === queueId);
-
-        if (queue) return queue.description.slice(0, -1);
-        else return 'Game';
+        return response.data.length;
     } catch (err) {
-        console.error(
-            `An error occured while fetching queue description: ${err.message}`
-        );
-        return 'Game';
+        console.error(err);
+        return 'An error occured while fetching matches number.';
     }
 }
 
