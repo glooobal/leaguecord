@@ -93,8 +93,11 @@ const command: Command = {
             );
 
             const summonerEmbed = new EmbedBuilder()
-                .setColor('DarkVividPink')
-                .setTitle(`🎉 Summoner: ${summoner.name} (${summoner.level})`)
+                .setColor(process.env.DISCORD_EMBED_COLOR)
+                .setAuthor({
+                    name: `Summoner: ${summoner.name} (${summoner.level})`,
+                    iconURL: `${interaction.client.user?.avatarURL()}`,
+                })
                 .setDescription(
                     `Games played today: ${await getMatchesNumber(
                         summoner.pId,
