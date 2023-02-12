@@ -10,6 +10,7 @@ Leaguecord is a Discord bot that brings the world of League of Legends to your D
 
 ## Requirements
 
+-   [Installation Instructions](https://github.com/glooobal/leaguecord/blob/main/INSTALLATON.md)
 -   [Node.js](https://nodejs.org/en/download/)
 -   [Discord Developer Application](https://discord.com/developers/applications)
 -   [Riot Games API Key](https://developer.riotgames.com/)
