@@ -4,9 +4,7 @@ Leaguecord is a Discord bot that brings the world of League of Legends to your D
 
 ## Features
 
--   Lookup summoner information
--   Check is summoner in game
--   View summoner mastery scores
+-   Lookup summoner information (/summoner)
 
 ## Requirements
 
@@ -27,4 +25,4 @@ This project is open source and contributions are welcome! If you would like to 
 
 # License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/glooobal/leaguecord/blob/main/LICENSE) file for details.
