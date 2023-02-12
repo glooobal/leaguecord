@@ -6,7 +6,6 @@ Leaguecord is a Discord bot that brings the world of League of Legends to your D
 
 -   Lookup summoner information
 -   View summoner mastery scores
--   Get live game information (TO:DO)
 
 ## Requirements
 
@@ -17,20 +16,24 @@ Leaguecord is a Discord bot that brings the world of League of Legends to your D
 
 1. Clone the repository and navigate to the project directory in your terminal.
 
-````git clone https://github.com/glooobal/Leaguecord.git
-cd Leaguecord```
+```
+git clone https://github.com/glooobal/Leaguecord.git
+cd Leaguecord
+```
 
 2. Install the dependencies
 
-```npm install```
-```yarn```
+```
+npm install or yarn
+```
 
 3. Fill up data in .env file.
 
 4. Start the bot by running the following command in your terminal.
 
-```npm start```
-```yarn run start```
+```
+npm start or yarn run start
+```
 
 ## Usage
 
@@ -51,4 +54,3 @@ This project is open source and contributions are welcome! If you would like to 
 # License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-````
