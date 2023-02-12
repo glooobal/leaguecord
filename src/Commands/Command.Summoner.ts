@@ -82,13 +82,13 @@ const command: Command = {
                     .setLabel('op.gg')
                     .setStyle(ButtonStyle.Link)
                     .setURL(
-                        `https://op.gg/summoners/${region}/${summoner.name}`
+                        new URL(`https://op.gg/summoners/${region}/${summoner.name}`).toString()
                     ),
                 new ButtonBuilder()
                     .setLabel('blitz.gg')
                     .setStyle(ButtonStyle.Link)
                     .setURL(
-                        `https://blitz.gg/lol/profile/${region}/${summoner.name}`
+                        new URL(`https://blitz.gg/lol/profile/${region}/${summoner.name}`).toString()    
                     )
             );
 
