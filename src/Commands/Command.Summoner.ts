@@ -125,7 +125,7 @@ const command: Command = {
                     },
                     {
                         name: 'Ranked Stats:',
-                        value: `**${summonerStats.rank_emoji} ${summonerStats.tier} ${summonerStats.rank} ${summonerStats.lp}LP**\n${summonerStats.wins}W ${summonerStats.losses}L\nWinrate: ${summonerStats.wr}`,
+                        value: `**${summonerStats.tier} ${summonerStats.rank} ${summonerStats.lp}LP**\n${summonerStats.wins}W ${summonerStats.losses}L\nWinrate: ${summonerStats.wr}`,
                         inline: true,
                     },
                     {

@@ -144,26 +144,11 @@ export async function getLiveGame(
                     participant.summonerId === summonerId
             ).championId;
 
-            const champions = JSON.parse(
-                readFileSync(
-                    join(__dirname, './League.Champions.Emojis.json'),
-                    'utf-8'
-                )
-            );
-
             var champion = await getChampion(championKey);
             var queueName = await getQueueName(data.gameQueueConfigId);
 
-            var guild = client.guilds.cache.get(
-                `${champions[champion.id].guildId}`
-            );
-
-            var emoji = guild.emojis.cache.get(
-                `${champions[champion.id].emojiId}`
-            );
-
             if (champion)
-                return `Currently playing a **${queueName}** as **${emoji} ${champion.name}**`;
+                return `Currently playing a **${queueName}** as **${champion.name}**`;
             else return 'Currently not playing.';
         } else {
             return `Currently not playing.`;
@@ -218,25 +203,10 @@ export async function getSummonerChampions(
         var mastery = [];
 
         for (let i = 0; i < 3; i++) {
-            const champions = JSON.parse(
-                readFileSync(
-                    join(__dirname, './League.Champions.Emojis.json'),
-                    'utf-8'
-                )
-            );
-
             var champion = await getChampion(data[i].championId);
 
-            var guild = client.guilds.cache.get(
-                `${champions[champion.id].guildId}`
-            );
-
-            var emoji = guild.emojis.cache.get(
-                `${champions[champion.id].emojiId}`
-            );
-
             mastery.push(
-                `${emoji} **[${data[i].championLevel}]** ${i + 1}. ${
+                `**[${data[i].championLevel}]** ${i + 1}. ${
                     champion.name
                 }: ${data[i].championPoints.toLocaleString('en-US')}`
             );
@@ -264,19 +234,7 @@ export async function getSummonerRanked(
 
         var data = response.data[0];
 
-        const ranks = JSON.parse(
-            readFileSync(join(__dirname, './League.Ranks.Emojis.json'), 'utf-8')
-        );
-
-        var guild = client.guilds.cache.get(
-            `${ranks[data.tier.toString().toLowerCase()].guildId}`
-        );
-        var emoji = guild.emojis.cache.get(
-            `${ranks[data.tier.toString().toLowerCase()].emojiId}`
-        );
-
         return {
-            rank_emoji: emoji,
             rank: data.rank,
             tier: data.tier,
             lp: data.leaguePoints,
