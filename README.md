@@ -5,12 +5,20 @@ Leaguecord is a Discord bot that brings the world of League of Legends to your D
 ## Features
 
 -   Lookup summoner information
+-   Check is summoner in game
 -   View summoner mastery scores
 
 ## Requirements
 
--   Node.js https://nodejs.org/en/download/
--   Riot Games API Key https://developer.riotgames.com/
+-   [Node.js](https://nodejs.org/en/download/)
+-   [Discord Developer Application](https://discord.com/developers/applications)
+-   [Riot Games API Key](*https://developer.riotgames.com/)
+
+## Discord Setup
+
+1. Create a bot application in the [Discord Developer Portal](https://discord.com/developers/applications)
+
+2. Copy the bot's token and client id from the Discord Developer Portal and paste it into the DISCORD_TOKEN and DISCORD_ID field in the .env file.
 
 ## Installation
 
@@ -49,9 +57,7 @@ npm start or yarn run start
 
 ## Usage
 
-Once the bot is up and running, invite it to your Discord server by using the Discord OAuth2 URL Generator.
-
-Then use following command in your terminal (It's very important!)
+Once you have invited the bot to your server discord server, use following command in your terminal and restart the bot (It's very important!)
 
 ```
 npm run deploy or yarn run deploy
