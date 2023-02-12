@@ -29,6 +29,18 @@ npm install or yarn
 
 3. Fill up data in .env file.
 
+```
+DISCORD_EMBED_COLOR=""
+
+RIOT_API_URL="api.riotgames.com/lol"
+RIOT_DDRAGON_URL="http://ddragon.leagueoflegends.com"
+
+RIOT_KEY=""
+
+DISCORD_TOKEN=""
+DISCORD_ID=""
+```
+
 4. Start the bot by running the following command in your terminal.
 
 ```
@@ -39,7 +51,11 @@ npm start or yarn run start
 
 Once the bot is up and running, invite it to your Discord server by using the Discord OAuth2 URL Generator.
 
-You can then use the following commands to access information about your favorite League of Legends summoners, champions, and games.
+Then use following command in your terminal (It's very important!)
+
+```
+npm run deploy or yarn run deploy
+```
 
 # Contributing
 
