@@ -1,4 +1,8 @@
-# <img src="https://i.imgur.com/aU505kS.png" height="32" width="32"> Leaguecord
+<div align="center">
+    <img src="https://i.imgur.com/aU505kS.png" height="128" width="128">
+</div>
+
+# Leaguecord - your Discord LoL Assistant
 
 Leaguecord is a Discord bot that brings the world of League of Legends to your Discord server. With Leaguecord, you can access information about your favorite summoners, champions, and games. The bot is created using discord.js and axios.
 
