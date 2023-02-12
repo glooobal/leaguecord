@@ -23,7 +23,10 @@ const command: Command = {
                 },
                 {
                     name: 'Users:',
-                    value: `${interaction.client.users.cache.size}`,
+                    value: `${interaction.client.guilds.cache.reduce(
+                        (a, b) => a + b.memberCount,
+                        0
+                    )}`,
                     inline: true,
                 },
                 {
