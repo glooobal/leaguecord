@@ -21,7 +21,7 @@ git clone https://github.com/glooobal/Leaguecord.git
 cd Leaguecord
 ```
 
-2. Install the dependencies
+2. Install the dependencies.
 
 ```
 npm install or yarn
