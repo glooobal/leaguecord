@@ -34,6 +34,8 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             DISCORD_EMBED_COLOR: any;
+            RIOT_API_URL: string;
+            RIOT_DDRAGON_URL: string;
             RIOT_KEY: string;
             DISCORD_TOKEN: string;
             DISCORD_ID: string;

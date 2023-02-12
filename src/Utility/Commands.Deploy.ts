@@ -25,17 +25,10 @@ export function deployCommands(client: Client) {
         process.env.DISCORD_TOKEN
     );
 
-    console.log(
-        `Started refreshing ${commands.length} application (/) commands.`
-    );
-
     rest.put(Routes.applicationCommands(process.env.DISCORD_ID), {
         body: commands.map((command) => command.toJSON()),
     })
         .then((data: any) => {
-            console.log(
-                `Successfully loaded ${data.length} application (/) commands.`
-            );
             process.exit();
         })
         .catch((err) => {

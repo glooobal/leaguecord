@@ -1,51 +1,37 @@
 import { Client } from 'discord.js';
-
-import axios from 'axios';
+import get from 'axios';
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-const apiKey = process.env.RIOT_KEY;
+import { getLatestVersion, getQueueName } from './League.Helpers';
 
-const riotUrl = 'api.riotgames.com/lol/';
-const ddragonUrl = 'http://ddragon.leagueoflegends.com/';
-
-export async function getLatestVersion(): Promise<string | any> {
-    try {
-        var response = await axios.get(`${ddragonUrl}api/versions.json`);
-
-        return response.data[0];
-    } catch (err) {
-        console.error(err);
-        return '13.3.1';
-    }
-}
+import { RIOT_API_KEY, RIOT_API_URL, DDRAGON_URL } from './League.Constants';
 
 export async function getSummonerAccount(
     name: string,
     region: string
 ): Promise<object | any> {
     try {
-        var requestUrl = new URL(`https://${region}.${riotUrl}summoner/v4/summoners/by-name/${name}?api_key=${apiKey}`);
-        var response = await axios.get(requestUrl.toString());
+        const { data } = await get(
+            `https://${region}.${RIOT_API_URL}/summoner/v4/summoners/by-name/${name}?api_key=${RIOT_API_KEY}`
+        );
 
-        var data = response.data;
+        const {
+            name: summonerName,
+            id: summonerId,
+            puuid,
+            profileIconId,
+            summonerLevel,
+        } = data;
 
-        const summonerName = data.name;
-        const summonerId = data.id;
-        const accountId = data.accountId;
-        const puuId = data.puuid;
-        const profileIconId = data.profileIconId;
-        const summonerLevel = data.summonerLevel;
-
-        const profileIconUrl = `${ddragonUrl}cdn/${await getLatestVersion()}/img/profileicon/${profileIconId}.png`;
+        const iconUrl = `${DDRAGON_URL}/cdn/${await getLatestVersion()}/img/profileicon/${profileIconId}.png`;
 
         return {
             name: summonerName,
-            sId: summonerId,
-            aId: accountId,
-            pId: puuId,
-            iconUrl: profileIconUrl,
+            id: summonerId,
+            puuid: puuid,
+            icon: iconUrl,
             level: summonerLevel,
         };
     } catch (err) {
@@ -55,62 +41,48 @@ export async function getSummonerAccount(
 
         return {
             name: undefined,
-            sId: undefined,
-            aId: undefined,
-            pId: undefined,
-            iconUrl: undefined,
+            id: undefined,
+            puuid: undefined,
+            icon: undefined,
             level: undefined,
         };
     }
 }
 
-export async function getQueueName(queueId: number) {
-    try {
-        const response = await axios.get(
-            'https://static.developer.riotgames.com/docs/lol/queues.json'
-        );
-
-        const queues = response.data;
-
-        const queue = queues.find((queue) => queue.queueId === queueId);
-
-        if (queue) return queue.description.slice(0, -1);
-        else return 'Game';
-    } catch (err) {
-        console.error(
-            `An error occured while fetching queue description: ${err.message}`
-        );
-        return 'Game';
-    }
-}
-
 export async function getChampion(championKey: string): Promise<object | any> {
     try {
-        var response = await axios.get(
-            `${ddragonUrl}cdn/${await getLatestVersion()}/data/en_US/champion.json`
+        const { data } = await get(
+            `${DDRAGON_URL}/cdn/${await getLatestVersion()}/data/en_US/champion.json`
         );
 
-        var data = response.data.data;
+        const championData = data.data;
+        let champion: object | undefined;
 
-        let championName: any;
-        let championId: any;
-
-        Object.keys(data).forEach((key) => {
-            if (data[key]['key'] == championKey) {
-                championId = data[key]['id'];
-                championName = data[key]['name'];
+        for (const key of Object.keys(championData)) {
+            if (championData[key]['key'] == championKey) {
+                champion = {
+                    id: championData[key]['id'],
+                    name: championData[key]['name'],
+                    icon: `${DDRAGON_URL}/cdn/${await getLatestVersion()}/img/champion/${
+                        championData[key]['id']
+                    }.png`,
+                    splash: `${DDRAGON_URL}/cdn/img/champion/splash/${championData[key]['id']}_0.jpg`,
+                };
+                break;
             }
-        });
+        }
 
-        var championIcon = `${ddragonUrl}cdn/${await getLatestVersion()}/img/champion/${championId}.png`;
-        var championSplash = `${ddragonUrl}cdn/img/champion/splash/${championId}_0.jpg`;
+        if (!champion) {
+            console.error(`Champion with key "${championKey}" not found.`);
+            return {
+                name: undefined,
+                id: undefined,
+                icon: undefined,
+                splash: undefined,
+            };
+        }
 
-        return {
-            name: championName,
-            id: championId,
-            championIcon: championIcon,
-            championSplash: championSplash,
-        };
+        return champion;
     } catch (err) {
         console.error(
             `An error occured while fetching champion: ${err.message}`
@@ -119,8 +91,8 @@ export async function getChampion(championKey: string): Promise<object | any> {
         return {
             name: undefined,
             id: undefined,
-            championIcon: undefined,
-            championSplash: undefined,
+            icon: undefined,
+            splash: undefined,
         };
     }
 }
@@ -129,30 +101,26 @@ export async function getLiveGame(
     summonerId: string,
     region: string,
     client: Client
-): Promise<string | any> {
+): Promise<string> {
     try {
-        var response = await axios.get(
-            `https://${region}.${riotUrl}spectator/v4/active-games/by-summoner/${summonerId}?api_key=${apiKey}`
+        const { data } = await get(
+            `https://${region}.${RIOT_API_URL}/spectator/v4/active-games/by-summoner/${summonerId}?api_key=${RIOT_API_KEY}`
         );
 
-        var data = response.data;
+        if (!data) return `Currently not playing.`;
 
-        if (data) {
-            var championKey = response.data.participants.find(
-                (participant: { summonerId: string }) =>
-                    participant.summonerId === summonerId
-            ).championId;
+        const championId = data.participants.find(
+            (participant: { summonerId: string }) =>
+                participant.summonerId === summonerId
+        ).championId;
 
-            var champion = await getChampion(championKey);
-            var queueName = await getQueueName(data.gameQueueConfigId);
+        const champion = await getChampion(championId);
+        const queueName = await getQueueName(data.gameQueueConfigId);
 
-            if (champion)
-                return `Currently playing a **${queueName}** as **${champion.name}**`;
-            else return 'Currently not playing.';
-        } else {
-            return `Currently not playing.`;
-        }
-    } catch (err) {
+        if (!champion) return `Currently not playing.`;
+
+        return `Currently playing a **${queueName}** as **${champion.name}**`;
+    } catch (error) {
         return `Currently not playing.`;
     }
 }
@@ -164,24 +132,28 @@ export async function getMatchesNumber(
     endTime: number,
     count: number
 ): Promise<number | any> {
-    let riotRegion: any;
+    const regions = {
+        americas: ['BR1', 'LA1', 'LA2', 'NA1'],
+        europe: ['EUN1', 'EUW1', 'RU', 'TR1'],
+        asia: ['JP1', 'KR', 'OC1'],
+    };
 
-    if (region === 'EUW1' || 'EUN1' || 'RU' || 'TR1') {
-        riotRegion = 'europe';
-    } else if (region === 'JP1' || 'KR' || 'OC1') {
-        riotRegion = 'asia';
-    } else if (region === 'NA1' || 'LA1' || 'LA2' || 'BR1') {
-        riotRegion = 'americas';
-    } else {
-        riotRegion = 'sea';
-    }
+    let riotRegion: string;
+
+    Object.entries(regions).forEach(([key, values]) => {
+        if (values.includes(region)) {
+            riotRegion = key;
+        }
+    });
+
+    if (!riotRegion) return 'Invalid region provided.';
 
     try {
-        var response = await axios.get(
-            `https://${riotRegion}.${riotUrl}match/v5/matches/by-puuid/${puuId}/ids?startTime=${startTime}&endTime=${endTime}&count=${count}&api_key=${apiKey}`
+        const { data } = await get(
+            `https://${riotRegion}.${RIOT_API_URL}/match/v5/matches/by-puuid/${puuId}/ids?startTime=${startTime}&endTime=${endTime}&count=${count}&api_key=${RIOT_API_KEY}`
         );
 
-        return response.data.length;
+        return data.length;
     } catch (err) {
         console.error(err);
         return 'An error occured while fetching matches number.';
@@ -194,24 +166,21 @@ export async function getSummonerChampions(
     client: Client
 ): Promise<string | any> {
     try {
-        var response = await axios.get(
-            `https://${region}.${riotUrl}champion-mastery/v4/champion-masteries/by-summoner/${summonerId}?api_key=${apiKey}`
+        const { data } = await get(
+            `https://${region}.${RIOT_API_URL}/champion-mastery/v4/champion-masteries/by-summoner/${summonerId}?api_key=${RIOT_API_KEY}`
         );
 
-        var data = response.data;
-        var mastery = [];
+        const championsMastery = await Promise.all(
+            data.slice(0, 3).map(async (championMastery, i) => {
+                const champion = await getChampion(championMastery.championId);
 
-        for (let i = 0; i < 3; i++) {
-            var champion = await getChampion(data[i].championId);
-
-            mastery.push(
-                `**[${data[i].championLevel}]** ${i + 1}. ${
+                return `**[${championMastery.championLevel}]** ${i + 1}. ${
                     champion.name
-                }: ${data[i].championPoints.toLocaleString('en-US')}`
-            );
-        }
+                }: ${championMastery.championPoints.toLocaleString('en-US')}`;
+            })
+        );
 
-        return mastery.join('\n');
+        return championsMastery.join('\n');
     } catch (err) {
         console.error(
             `An error occured while fetching summoner champions mastery: ${err.message}`
@@ -221,28 +190,35 @@ export async function getSummonerChampions(
     }
 }
 
-export async function getSummonerRanked(
+export async function getSummonerRankData(
     summonerId: string,
     region: string,
     client: Client
 ): Promise<object | any> {
     try {
-        var response = await axios.get(
-            `https://${region}.${riotUrl}league/v4/entries/by-summoner/${summonerId}?api_key=${apiKey}`
+        const { data } = await get(
+            `https://${region}.${RIOT_API_URL}/league/v4/entries/by-summoner/${summonerId}?api_key=${RIOT_API_KEY}`
         );
 
-        var data = response.data[0];
+        const [rankData] = data;
 
         return {
-            rank: data.rank,
-            tier: data.tier,
-            lp: data.leaguePoints,
-            wins: data.wins,
-            losses: data.losses,
-            wr: ((data.wins / (data.wins + data.losses)) * 100).toFixed() + '%',
+            rank: rankData.rank,
+            tier: rankData.tier,
+            lp: rankData.leaguePoints,
+            wins: rankData.wins,
+            losses: rankData.losses,
+            wr:
+                (
+                    (rankData.wins / (rankData.wins + rankData.losses)) *
+                    100
+                ).toFixed() + '%',
         };
-    } catch (error) {
-        console.error(error);
-        return error;
+    } catch (err) {
+        console.error(
+            `An error occured while fetching summoner rank data: ${err.message}`
+        );
+
+        return { error: 'An error occured while fetching summoner rank data.' };
     }
 }

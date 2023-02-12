@@ -11,9 +11,7 @@ const event: Event = {
             interaction.commandName
         );
 
-        if (!command) {
-            return console.log('There are no commands');
-        }
+        if (!command) return;
 
         try {
             command.execute(interaction);

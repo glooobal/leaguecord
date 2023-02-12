@@ -12,7 +12,7 @@ import {
     getSummonerAccount,
     getSummonerChampions,
     getLiveGame,
-    getSummonerRanked,
+    getSummonerRankData,
     getMatchesNumber,
 } from '../Services/League.Game';
 
@@ -41,18 +41,11 @@ const command: Command = {
                     { name: 'Oceania', value: 'OC1' },
                     { name: 'Russia', value: 'RU' },
                     { name: 'Turkey', value: 'TR1' },
-                    { name: 'Japan', value: 'JP1' },
-                    { name: 'Republic of Korea', value: 'KR' },
-                    { name: 'The Philippines', value: 'PH2' },
-                    { name: 'Singapore, Malaysia, & Indonesia', value: 'SG2' },
-                    { name: 'Taiwan, Hong Kong, and Macao', value: 'TW2' },
-                    { name: 'Thailand', value: 'TH2' },
-                    { name: 'Vietnam', value: 'VN2' }
+                    { name: 'Japan', value: 'JP1' }
                 )
                 .setRequired(true);
         }),
     execute: async (interaction) => {
-        interaction.deferReply();
         const name = interaction.options.get('name').value.toString();
         const region = interaction.options.get('region').value.toString();
 
@@ -72,8 +65,8 @@ const command: Command = {
         const yesterdayEndTime = yesterdayStartTime + 24 * 60 * 60 - 1;
 
         if (summoner.name != undefined) {
-            const summonerStats = await getSummonerRanked(
-                summoner.sId,
+            const summonerStats = await getSummonerRankData(
+                summoner.id,
                 region,
                 client
             );
@@ -83,13 +76,17 @@ const command: Command = {
                     .setLabel('op.gg')
                     .setStyle(ButtonStyle.Link)
                     .setURL(
-                        new URL(`https://op.gg/summoners/${region}/${summoner.name}`).toString()
+                        new URL(
+                            `https://op.gg/summoners/${region}/${summoner.name}`
+                        ).toString()
                     ),
                 new ButtonBuilder()
                     .setLabel('blitz.gg')
                     .setStyle(ButtonStyle.Link)
                     .setURL(
-                        new URL(`https://blitz.gg/lol/profile/${region}/${summoner.name}`).toString()    
+                        new URL(
+                            `https://blitz.gg/lol/profile/${region}/${summoner.name}`
+                        ).toString()
                     )
             );
 
@@ -101,13 +98,13 @@ const command: Command = {
                 })
                 .setDescription(
                     `Games played today: ${await getMatchesNumber(
-                        summoner.pId,
+                        summoner.puuid,
                         region,
                         todayStartTime,
                         todayEndTime,
                         50
                     )}, yesterday: ${await getMatchesNumber(
-                        summoner.pId,
+                        summoner.puuid,
                         region,
                         yesterdayStartTime,
                         yesterdayEndTime,
@@ -118,7 +115,7 @@ const command: Command = {
                     {
                         name: 'Top Champions:',
                         value: `${await getSummonerChampions(
-                            summoner.sId,
+                            summoner.id,
                             region,
                             client
                         )}`,
@@ -132,16 +129,16 @@ const command: Command = {
                     {
                         name: 'Live Game:',
                         value: `${await getLiveGame(
-                            summoner.sId,
+                            summoner.id,
                             region,
                             client
                         )}`,
                         inline: false,
                     }
                 )
-                .setThumbnail(summoner.iconUrl);
+                .setThumbnail(summoner.icon);
 
-            await interaction.editReply({
+            await interaction.reply({
                 embeds: [summonerEmbed],
                 components: [buttons],
             });
