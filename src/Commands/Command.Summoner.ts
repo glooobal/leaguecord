@@ -52,6 +52,7 @@ const command: Command = {
                 .setRequired(true);
         }),
     execute: async (interaction) => {
+        interaction.deferReply();
         const name = interaction.options.get('name').value.toString();
         const region = interaction.options.get('region').value.toString();
 
@@ -140,7 +141,7 @@ const command: Command = {
                 )
                 .setThumbnail(summoner.iconUrl);
 
-            await interaction.reply({
+            await interaction.editReply({
                 embeds: [summonerEmbed],
                 components: [buttons],
             });
