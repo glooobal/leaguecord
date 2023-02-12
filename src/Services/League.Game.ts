@@ -26,9 +26,8 @@ export async function getSummonerAccount(
     region: string
 ): Promise<object | any> {
     try {
-        var response = await axios.get(
-            `https://${region}.${riotUrl}summoner/v4/summoners/by-name/${name}?api_key=${apiKey}`
-        );
+        var requestUrl = new URL(`https://${region}.${riotUrl}summoner/v4/summoners/by-name/${name}?api_key=${apiKey}`);
+        var response = await axios.get(requestUrl.toString());
 
         var data = response.data;
 
