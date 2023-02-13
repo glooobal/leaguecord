@@ -212,10 +212,13 @@ export async function getSummonerRankData(
                 ).toFixed() + '%',
         };
     } catch (err) {
-        console.error(
-            `An error occured while fetching summoner rank data: ${err.message}`
-        );
-
-        return { error: 'An error occured while fetching summoner rank data.' };
+        return {
+            rank: 'Unranked',
+            tier: '',
+            lp: '0',
+            wins: '0',
+            losses: '0',
+            wr: '0%',
+        };
     }
 }
