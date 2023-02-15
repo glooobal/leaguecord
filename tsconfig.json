@@ -1,20 +1,17 @@
 {
+    "include": ["./src"],
     "compilerOptions": {
-        "target": "es2016",
-        "module": "CommonJS",
+        "outDir": "./dist",
+        "strict": true,
         "moduleResolution": "node",
-        "outDir": "dist",
-        "sourceMap": false,
-        "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true,
+        "alwaysStrict": true,
         "esModuleInterop": true,
-        "skipDefaultLibCheck": true,
-        "skipLibCheck": true,
-        "importHelpers": true,
+        "module": "CommonJS",
+        "target": "es2019",
+        "sourceMap": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-    },
-
-    "include": ["src", "Types/Environment.d.ts"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
+        "emitDecoratorMetadata": true,
+        "pretty": true,
+        "resolveJsonModule": true
+    }
 }

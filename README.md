@@ -1,30 +1,87 @@
-<div align="center">
-    <img src="https://i.imgur.com/aU505kS.png" height="128" width="128">
-    <h1>Leaguecord - your Discord LoL Assistant</h1>
-    <p>Leaguecord is a Discord bot that brings the world of League of Legends to your Discord server. With Leaguecord, you can access information about your favorite summoners, champions, and games. The bot is created using discord.js and axios.</p>
-</div>
+<h1 align="center">
+    <br>
+    <a href="https://canary.discord.com/api/oauth2/authorize?client_id=1071897662657400842&permissions=274878286912&scope=applications.commands%20bot">
+        <img src="https://raw.githubusercontent.com/glooobal/leaguecord/main/assets/logo-circle.png" alt="Leaguecord" width="200">
+    </a>
+    <br>
+    Leaguecord
+    <br>
+</h1>
 
-## Requirements
+<h4 align="center">Bring the<a href="https://www.leagueoflegends.com/pl-pl/" target="_blank">League of Legends</a> world to your discord server!</h4>
 
--   [Installation Instructions](https://github.com/glooobal/leaguecord/blob/main/INSTALLATON.md)
--   [Node.js](https://nodejs.org/en/download/)
--   [Discord Developer Application](https://discord.com/developers/applications)
+<p align="center">
+    <a href="https://canary.discord.com/api/oauth2/authorize?client_id=1071897662657400842&permissions=274878286912&scope=applications.commands%20bot">
+        <img src="https://img.shields.io/badge/Invite-Me-7289da?style=for-the-badge" alt="Invite Me">
+    </a>
+    <img src="https://img.shields.io/codefactor/grade/github/glooobal/leaguecord?color=ff69b4&style=for-the-badge">
+    <a href="https://discord.gg/kZEyFAJwNH">
+        <img src="https://img.shields.io/badge/Support-Server-7289da?style=for-the-badge" alt="Support Server">
+    </a>
+</p>
+
+<p align="center">
+    <a href="#features">Features</a> •
+    <a href="#installation">Installation</a> •
+    <a href="#credits">Credits</a> •
+    <a href="#license">License</a>
+</p>
+
+## Features
+
+-   `/summoner` - Get information about a summoner
+-   `/match` - Get information about a match
+-   `/champion` - Get information about a champion
+-   `/item` - Get information about an item
+-   `/runes` - Get information about a runes for champion
+-   `/mastery` - Get information about player champion mastery
+-   `/news` - Get information about latest news from League of Legends and Teamfight Tactics
+-   `/patch` - Get information about latest patch
+-   `/status` - Get information about League of Legends and Teamfight Tactics servers status
+-   `/help` - Get information about all commands
+-   `/invite` - Get invite link to add Leaguecord to your server
+-   `/info` - Get information about Leaguecord
+
+## Installation
+
+### Requirements
+
+-   [Node.js](https://nodejs.org/en/) v16.18.0 or newer
+-   [MongoDB](https://www.mongodb.com/) v6.0.0 or newer
 -   [Riot Games API Key](https://developer.riotgames.com/)
+-   [Discord Bot Application](https://discord.com/developers/applications)
 
-# Contributing
+### Installation
 
-This project is open source and contributions are welcome! If you would like to contribute to the development of Leaguecord, please follow these steps:
+```bash
+# Clone this repository
+git clone https://github.com/glooobal/leaguecord.git
 
-1. Fork the repository to your GitHub account
-2. Clone the repository to your local machine
-3. Create a new branch for your changes
-4. Commit your changes and push to your fork
-5. Create a pull request back to the original repository
+# Go into the repository
+cd leaguecord
 
-# License
+# Install dependencies
+npm install
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/glooobal/leaguecord/blob/main/LICENSE) file for details.
+# Copy .env.example to .env
+cp .env.example .env
 
-# Attribution
+# Edit .env file
+nano .env
 
-Leaguecord isn't developed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends (c) Riot Games, Inc.
+# Run the app
+npm build && npm start
+```
+
+## Credits
+
+This software uses the following open source packages:
+
+-   [Node.js](https://nodejs.org/)
+-   [discord.js](https://discord.js.org/)
+-   [mongoose](https://mongoosejs.com/)
+-   Logo, champions emojis, mastery emojis and rank emojis used by Leaguecord are property of [Riot Games](https://www.riotgames.com/)
+
+## License
+
+[GPL-3.0](https://github.com/glooobal/leaguecord/blob/main/LICENSE)
