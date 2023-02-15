@@ -15,6 +15,10 @@
         <img src="https://img.shields.io/badge/Invite-Me-7289da?style=for-the-badge" alt="Invite Me">
     </a>
     <img src="https://img.shields.io/codefactor/grade/github/glooobal/leaguecord?color=ff69b4&style=for-the-badge">
+    <a href="https://www.buymeacoffee.com/glooobal">
+        <img src="https://img.shields.io/badge/Buy%20me%20a%20coffe-here-orange?style=for-the-badge">
+    </a>
+    <img src="https://img.shields.io/github/package-json/v/glooobal/leaguecord?color=ff69b4&style=for-the-badge">
     <a href="https://discord.gg/kZEyFAJwNH">
         <img src="https://img.shields.io/badge/Support-Server-7289da?style=for-the-badge" alt="Support Server">
     </a>
