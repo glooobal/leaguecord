@@ -8,6 +8,7 @@
 	"scripts": {
 		"build": "tsc -p tsconfig.json",
 		"start": "node dist/index.js | pino-pretty -c -t -l",
+		"dev": "yarn build && nodemon dist/index.js | pino-pretty -c -t -l",
 		"lint": "eslint src --ext .ts",
 		"prettier": "prettier --write **/*.ts"
 	},
@@ -35,9 +36,7 @@
 		"lol"
 	],
 	"dependencies": {
-		"crypto-js": "^4.1.1",
 		"discord.js": "^14.7.1",
-		"dotenv": "^16.0.3",
 		"mongoose": "^6.9.1",
 		"pino": "^8.10.0",
 		"pino-pretty": "^9.2.0"
@@ -46,7 +45,9 @@
 		"@types/node": "^18.13.0",
 		"@typescript-eslint/eslint-plugin": "^5.52.0",
 		"@typescript-eslint/parser": "^5.52.0",
+		"dotenv": "^16.0.3",
 		"eslint": "^8.34.0",
+		"nodemon": "^2.0.20",
 		"prettier": "^2.8.4",
 		"typescript": "^4.9.5"
 	}
