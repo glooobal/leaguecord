@@ -5,18 +5,22 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "overrides": [
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "check-file"
     ],
+    "root": true,
     "rules": {
         "indent": [
             "error",
@@ -24,7 +28,7 @@
         ],
         "linebreak-style": [
             "error",
-            "windows"
+            "unix"
         ],
         "quotes": [
             "error",
@@ -33,6 +37,13 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "check-file/filename-naming-convention": [
+            "error", { "**/*.ts": "PASCAL_CASE" }
+        ],
+        "check-file/folder-naming-convention": [
+            "error", { "**/*.ts": "PASCAL_CASE" }
+        ],
+        "check-file/no-index": "error"
     }
 }
