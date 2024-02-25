@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
-    "lint": "prettier src --write"
+    "lint": "prettier src --write",
+    "deploy": "node src/scripts/deployGlobal.js"
   },
   "author": "Jakub 'global' Górzny",
   "dependencies": {
